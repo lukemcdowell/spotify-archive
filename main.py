@@ -1,4 +1,3 @@
-from datetime import datetime
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import sys
@@ -15,11 +14,8 @@ sp = spotipy.Spotify(
 )
 
 
-def create_on_repeat_archive():
+def create_on_repeat_archive(playlist_name):
     try:
-        # TODO: get last month not current month
-        playlist_name = datetime.now().strftime("%b %y")
-
         on_repeat_tracks = sp.playlist_tracks(ON_REPEAT_PLAYLIST_URI)["items"]
 
         track_uris = [track["track"]["uri"] for track in on_repeat_tracks]
@@ -32,6 +28,8 @@ def create_on_repeat_archive():
         # add tracks
         sp.playlist_add_items(new_playlist_id, track_uris)
         print(f"Archived 'On Repeat' playlist to '{playlist_name}'")
+
+        return new_playlist["external_urls"]["spotify"]
 
     except Exception as error:
         sys.exit(f"An error occurred creating playlist: {error}")
