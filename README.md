@@ -4,6 +4,8 @@ Script to make an archive of my top Spotify tracks each month.
 
 Runs monthly on AWS Lambda to create a new playlist containing my top songs from the previous month. Integrates with Spotify using the Authorization Code flow feature of the Spotipy library. Emails me with a link to the new playlist.
 
+![image](https://github.com/user-attachments/assets/f641e409-2745-433c-89a4-ea809441f31a)
+
 ## Useful Links
 
 - https://spotipy.readthedocs.io/en/2.24.0/#
