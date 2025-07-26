@@ -15,9 +15,18 @@ Runs monthly on AWS Lambda to create a new playlist containing my top songs from
 
 ## Running on Lambda
 
-To run on AWS Lambda, follow these steps:
+To deploy and run on AWS Lambda, you first need to run the app locally to authenticate via Spotify, and generate a `.cache` file containing your authentication and refresh tokens.
 
-### 1. Set Up Environment Variables
+### 1. Run the App Locally
+This is required in order to authenticate via Spotify and generate your authentication and refresh tokens. 
+
+- Set up your environment variables locally and install dependencies
+- Run `python3 main.py`
+   this will prompt you to log in to Spotify via your web broswer.
+   - a playlist called "Test Playlist" will be generated in your Spotify account.
+   - your tokens will be stored in a `.cache` file. This file should be packaged and uploaded to lambda.
+
+### 2. Set Up Environment Variables
 
 The Lambda function requires specific environment variables to run, including:
 
@@ -30,18 +39,19 @@ The Lambda function requires specific environment variables to run, including:
 
 Set these in the AWS Lambda environment configuration under **Configuration > Environment variables**.
 
-### 2. Package Your Application
+### 3. Package Your Application
 
 To upload the function to AWS Lambda, package your Python code and dependencies:
 
-1. **Install Dependencies**  
-   Use `pip` to install dependencies from `requirements.txt` into the root directory of your project:
+**Install Dependencies**  
+   It is recommended to create a copy of your project directory first, to keep all of the installed dependencies separate from your git project. Use `pip` to install dependencies from `requirements.txt` into the root directory of your project:
 
    ```bash
-   pip install -r requirements.txt -t .
+   pip3 install -r requirements.txt -t .
    ```
 
-### 3. Zip Entire Directory
+
+### 4. Zip Entire Directory
 
 Once all necessary files and dependencies are in the root directory, you can zip everything:
 
@@ -49,4 +59,11 @@ Once all necessary files and dependencies are in the root directory, you can zip
 zip -r lambda_function.zip ./*
 ```
 
-### 4. Upload Deployment Package to Lambda
+### 5. Upload Deployment Package to Lambda
+
+## Running Locally:
+- Set up your environment variables and install dependencies (as described above)
+- Run `python3 main.py` 
+   - this will prompt you to log in to Spotify via your web broswer. 
+   - a playlist called "Test Playlist" will be generated in your Spotify account.
+   - your tokens will be stored in a `.cache` file. This file should be packaged and uploaded to lambda.

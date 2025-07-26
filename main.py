@@ -36,4 +36,4 @@ def create_on_repeat_archive(playlist_name):
 
 
 if __name__ == "__main__":
-    create_on_repeat_archive()
+    create_on_repeat_archive('Test Playlist')
