@@ -3,10 +3,8 @@ from spotipy.oauth2 import SpotifyOAuth
 import sys
 
 
-ON_REPEAT_PLAYLIST_URI = "spotify:playlist:37i9dQZF1EpiwFDq6VvF8I"
-
 # spotify authentication with required scopes (picks up client id/secret as env variables)
-scope = "playlist-read-private playlist-modify-private playlist-modify-public"
+scope = "user-top-read playlist-modify-private"
 sp = spotipy.Spotify(
     auth_manager=SpotifyOAuth(
         scope=scope,
@@ -14,11 +12,11 @@ sp = spotipy.Spotify(
 )
 
 
-def create_on_repeat_archive(playlist_name):
+def create_top_tracks_archive(playlist_name):
     try:
-        on_repeat_tracks = sp.playlist_tracks(ON_REPEAT_PLAYLIST_URI)["items"]
+        top_tracks = sp.current_user_top_tracks(30, time_range="short_term")["items"]
 
-        track_uris = [track["track"]["uri"] for track in on_repeat_tracks]
+        track_uris = [track["uri"] for track in top_tracks]
 
         # create new playlist
         user_id = sp.current_user()["id"]
@@ -27,7 +25,7 @@ def create_on_repeat_archive(playlist_name):
 
         # add tracks
         sp.playlist_add_items(new_playlist_id, track_uris)
-        print(f"Archived 'On Repeat' playlist to '{playlist_name}'")
+        print(f"Archived Top Tracks to '{playlist_name}'")
 
         return new_playlist["external_urls"]["spotify"]
 
@@ -36,4 +34,4 @@ def create_on_repeat_archive(playlist_name):
 
 
 if __name__ == "__main__":
-    create_on_repeat_archive('Test Playlist')
+    create_top_tracks_archive('Test Top Tracks Playlist')

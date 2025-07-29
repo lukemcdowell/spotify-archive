@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 import json
 from mail import send_email
-from main import create_on_repeat_archive
+from main import create_top_tracks_archive
 
 
 def lambda_handler(event, context):
@@ -10,10 +10,10 @@ def lambda_handler(event, context):
     playlist_name = last_month.strftime("%b %y")
 
     try:
-        playlist_url = create_on_repeat_archive(playlist_name)
+        playlist_url = create_top_tracks_archive(playlist_name)
         send_email(
-            "On Repeat Archive",
-            f"On Repeat archive created: <a href={playlist_url}>{playlist_name}</a>",
+            "Top Track Archive",
+            f"Top Track archive created: <a href={playlist_url}>{playlist_name}</a>",
         )
 
         return {"statusCode": 200, "body": json.dumps("Playlist created successfully!")}
