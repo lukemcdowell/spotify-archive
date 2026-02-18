@@ -1,13 +1,24 @@
+import os
+import shutil
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import sys
 
 
-# spotify authentication with required scopes (picks up client id/secret as env variables)
 scope = "user-top-read playlist-modify-private"
+
+# /var/task is read-only in Lambda; copy the bundled cache to /tmp so spotipy
+# can write refreshed tokens back
+_CACHE_SRC = "/var/task/.cache"
+_CACHE_DST = "/tmp/.cache"
+if not os.path.exists(_CACHE_DST) and os.path.exists(_CACHE_SRC):
+    shutil.copy(_CACHE_SRC, _CACHE_DST)
+
 sp = spotipy.Spotify(
     auth_manager=SpotifyOAuth(
         scope=scope,
+        cache_path=_CACHE_DST,
+        open_browser=False,
     )
 )
 

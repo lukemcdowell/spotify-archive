@@ -4,7 +4,7 @@ from mail import send_email
 from main import create_top_tracks_archive
 
 
-def lambda_handler(event, context):
+def handler(event, context):
     today = datetime.now()
     last_month = today - timedelta(weeks=1)
     playlist_name = last_month.strftime("%b %y")
@@ -25,4 +25,4 @@ def lambda_handler(event, context):
 
 
 if __name__ == "__main__":
-    print(lambda_handler("test", "test"))
+    print(handler("test", "test"))
